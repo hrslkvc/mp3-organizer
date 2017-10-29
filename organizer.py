@@ -2,10 +2,13 @@ import os
 
 
 def load_tags(song):
-
+    """Load an mp3 file and decode it with utf-8 or latin1 encoding. 
+    Return a substring containing the Title, Artist and Album tags.
+    """
     tags = song.read(128)
     tags = tags.decode("latin-1")
 
+    # check if the file actually has any ID3v2 tags
     if tags.startswith("ID3"):
         return tags
     else:
@@ -13,6 +16,7 @@ def load_tags(song):
 
 
 def sanitize_tag(tag):
+    """Remove leftover ASCII control characters"""
     for i in tag:
         for j in range(32):
             if chr(j) == i:
@@ -21,6 +25,9 @@ def sanitize_tag(tag):
 
 
 def extract_tags(tags):
+    """Return a tuple containing extracted Title, Artist and Album tags from
+    the surrounding bytes.
+    """
 
     title = tags[tags.find("TIT2") + 4:tags.find("TPE1")]
     artist = tags[tags.find("TPE1") + 4: tags.find("TALB")]
