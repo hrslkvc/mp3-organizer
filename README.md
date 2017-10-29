@@ -1,4 +1,4 @@
-# mp3_organizer
+# mp3-organizer
 
 A bare-bones script that reads ID3v2 tags of an .mp3 file and based on the extracted info:
 
