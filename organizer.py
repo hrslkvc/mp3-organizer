@@ -46,3 +46,5 @@ with open("03 - Rihanna - Hard.mp3", "rb") as song:
     album = sanitize_tag(album)
 
 print(artist, "-", title, album)
+
+
