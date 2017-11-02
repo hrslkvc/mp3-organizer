@@ -1,4 +1,5 @@
 import os
+import shutil
 
 
 def load_tags(song):
@@ -36,6 +37,12 @@ def extract_tags(tags):
     return title, artist, album
 
 
+def create_dirs(title, artist, album):
+    songdir = os.path.join(artist, album, title)
+    os.makedirs(songdir, exist_ok=True)
+    return songdir
+
+
 os.chdir("/home/haris/Music/Deezloader")
 
 with open("03 - Rihanna - Hard.mp3", "rb") as song:
@@ -45,6 +52,9 @@ with open("03 - Rihanna - Hard.mp3", "rb") as song:
     artist = sanitize_tag(artist)
     album = sanitize_tag(album)
 
-print(artist, "-", title, album)
+#print(artist, "-", title, album)
 
+#create_dirs(title, artist, album)
+shutil.move("03 - Rihanna - Hard.mp3", create_dirs(title, artist, album))
 
+print("Done")
