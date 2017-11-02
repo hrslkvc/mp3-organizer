@@ -43,18 +43,24 @@ def create_dirs(title, artist, album):
     return songdir
 
 
-os.chdir("/home/haris/Music/Deezloader")
+def get_songs():
+    files = os.listdir()
+    songs = []
+    for file in files:
+        if file.endswith(".mp3"):
+            songs.append(file)
+    return songs
 
-with open("03 - Rihanna - Hard.mp3", "rb") as song:
-    tags = load_tags(song)
-    title, artist, album = extract_tags(tags)
-    title = sanitize_tag(title)
-    artist = sanitize_tag(artist)
-    album = sanitize_tag(album)
 
-#print(artist, "-", title, album)
+# with open("03 - Rihanna - Hard.mp3", "rb") as song:
+#    tags = load_tags(song)
+#    title, artist, album = extract_tags(tags)
+#    title = sanitize_tag(title)
+#    artist = sanitize_tag(artist)
+#    album = sanitize_tag(album)
 
-#create_dirs(title, artist, album)
-shutil.move("03 - Rihanna - Hard.mp3", create_dirs(title, artist, album))
 
-print("Done")
+songs = get_songs()
+
+
+print(songs)
