@@ -10,5 +10,6 @@ A bare-bones script that reads ID3v2 tags of an .mp3 file and based on the extra
 
 TODO:
 
+- [ ] Deal with multiple artists
 - [ ] Support older ID3 versions
 - [ ] Support other audio format types (m4a, flac etc)
