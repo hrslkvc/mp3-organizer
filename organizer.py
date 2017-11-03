@@ -2,6 +2,15 @@ import os
 import shutil
 
 
+def get_songs():
+    files = os.listdir()
+    songs = []
+    for file in files:
+        if file.endswith(".mp3"):
+            songs.append(file)
+    return songs
+
+
 def load_tags(song):
     """Load an mp3 file and decode it with utf-8 or latin1 encoding. 
     Return a substring containing the Title, Artist and Album tags.
@@ -37,19 +46,16 @@ def extract_tags(tags):
     return title, artist, album
 
 
+def rename_songs(files, tags):
+    for i in files:
+        os.rename(
+            files, "{} - {}".format(sanitize_tag(tags[1]), sanitize_tag(tags[0])))
+
+
 def create_dirs(title, artist, album):
     songdir = os.path.join(artist, album, title)
     os.makedirs(songdir, exist_ok=True)
     return songdir
-
-
-def get_songs():
-    files = os.listdir()
-    songs = []
-    for file in files:
-        if file.endswith(".mp3"):
-            songs.append(file)
-    return songs
 
 
 # with open("03 - Rihanna - Hard.mp3", "rb") as song:
@@ -58,9 +64,3 @@ def get_songs():
 #    title = sanitize_tag(title)
 #    artist = sanitize_tag(artist)
 #    album = sanitize_tag(album)
-
-
-songs = get_songs()
-
-
-print(songs)
