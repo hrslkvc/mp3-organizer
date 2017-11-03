@@ -30,7 +30,7 @@ def sanitize_tag(tag):
     for i in tag:
         for j in range(32):
             if chr(j) == i:
-                tag = tag.strip(i)
+                tag = tag.replace(i, "")
     return tag
 
 
@@ -47,26 +47,21 @@ def extract_tags(tags):
 
 
 def rename_song(file, artist, title):
-    os.rename(file, "{} - {}".format(artist, title))
+    os.rename(file, "{} - {}.{}".format(artist, title, "mp3"))
 
 
-def create_dirs(title, artist, album):
-    songdir = os.path.join(artist, album, title)
+def create_dirs(artist, album):
+    songdir = os.path.join(artist, album)
     os.makedirs(songdir, exist_ok=True)
     return songdir
 
 
-# with open("03 - Rihanna - Hard.mp3", "rb") as song:
-#    tags = load_tags(song)
-#    title, artist, album = extract_tags(tags)
-#    title = sanitize_tag(title)
-#    artist = sanitize_tag(artist)
-#    album = sanitize_tag(album)
-
 def main():
+
     songs = get_songs()
 
     for song in songs:
+
         with open(song, "rb") as s:
             tags = load_tags(s)
             if tags == False:
@@ -78,7 +73,13 @@ def main():
             artist = sanitize_tag(artist)
             album = sanitize_tag(album)
 
-            rename_song(song, title, artist)
+            print(title, artist, album)
+
+            rename_song(song, artist, title)
+
+            songdir = create_dirs(artist, album)
+
+            shutil.move(song, songdir)
 
 
 if __name__ == "__main__":
