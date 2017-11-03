@@ -22,7 +22,7 @@ def load_tags(song):
     if tags.startswith("ID3"):
         return tags
     else:
-        print("No ID3v2 tags found")
+        return False
 
 
 def sanitize_tag(tag):
@@ -46,10 +46,8 @@ def extract_tags(tags):
     return title, artist, album
 
 
-def rename_songs(files, tags):
-    for i in files:
-        os.rename(
-            files, "{} - {}".format(sanitize_tag(tags[1]), sanitize_tag(tags[0])))
+def rename_song(file, artist, title):
+    os.rename(file, "{} - {}".format(artist, title))
 
 
 def create_dirs(title, artist, album):
@@ -64,3 +62,24 @@ def create_dirs(title, artist, album):
 #    title = sanitize_tag(title)
 #    artist = sanitize_tag(artist)
 #    album = sanitize_tag(album)
+
+def main():
+    songs = get_songs()
+
+    for song in songs:
+        with open(song, "rb") as s:
+            tags = load_tags(s)
+            if tags == False:
+                print("No tags found in {}".format(song))
+                continue
+
+            title, artist, album = extract_tags(tags)
+            title = sanitize_tag(title)
+            artist = sanitize_tag(artist)
+            album = sanitize_tag(album)
+
+            rename_song(song, title, artist)
+
+
+if __name__ == "__main__":
+    main()
