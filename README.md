@@ -11,6 +11,6 @@ A bare-bones script that reads ID3v2 tags of an .mp3 file and based on the extra
 TODO:
 
 - [ ] Deal with songs by multiple artists 
-- [ ] Supports alternative naming convenctions with command line args
+- [ ] Support alternative naming convenctions with command line args
 - [ ] Support older ID3 versions
 - [ ] Support other audio format types (m4a, flac etc)
