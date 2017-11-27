@@ -52,8 +52,11 @@ def extract_tags(tags):
 
 
 def rename_song(file, artist, title):
-    """Rename file based on the artist and title arguments"""
-    os.rename(file, "{} - {}.{}".format(artist, title, "mp3"))
+    """Rename file based on the artist and title arguments. Return the new filename"""
+
+    new_name = "{} - {}.{}".format(artist, title, "mp3")
+    os.rename(file, new_name)
+    return new_name
 
 
 def create_dir(artist, album):
@@ -82,11 +85,9 @@ def main():
 
             print(title, artist, album)
 
-            rename_song(song, artist, title)
-
+            new_name = rename_song(song, artist, title)
             songdir = create_dir(artist, album)
-
-            shutil.move(song, songdir)
+            shutil.move(new_name, songdir)
 
 
 if __name__ == "__main__":
