@@ -60,14 +60,14 @@ def rename_song(file, artist, title):
 
 
 def create_dir(artist, album):
-    """Construct a path from the artist and album args and create the  """
+    """Construct a path from the artist and album args and create the directories based on them"""
     songdir = os.path.join(artist, album)
     os.makedirs(songdir, exist_ok=True)
     return songdir
 
 
 def main():
-
+    current_dir = os.getcwd()
     songs = get_songs()
 
     for song in songs:
@@ -85,7 +85,7 @@ def main():
 
             print(title, artist, album)
 
-            new_name = rename_song(song, artist, title)
+            new_name = rename_song(os.path.join(current_dir, song), artist, title)
             songdir = create_dir(artist, album)
             shutil.move(new_name, songdir)
 
