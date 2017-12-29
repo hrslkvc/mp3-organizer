@@ -18,7 +18,7 @@ def get_songs():
 
 
 def load_tags(song):
-    """Load an mp3 file and decode it with utf-8 or latin1 encoding.
+    """Load an mp3 file and decode it with latin1 encoding.
     Return a substring containing the Title, Artist and Album tags.
     """
     tags = song.read(128)
