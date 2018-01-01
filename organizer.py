@@ -8,7 +8,14 @@ import shutil
 
 
 def get_songs():
-    """Return a list containing the filenames of all the .mp3 files in the directory"""
+    """
+    Get a list of .mp3 files from the current directory
+
+    Returns:
+        songs (list): A list of .mp3 filenames
+
+
+    """
     files = os.listdir()
     songs = []
     for file in files:
@@ -18,8 +25,15 @@ def get_songs():
 
 
 def load_tags(song):
-    """Load an mp3 file and decode it with latin1 encoding.
-    Return a substring containing the Title, Artist and Album tags.
+    """
+    Load an mp3 file and decode it with latin1 encoding.
+
+    Args:
+        song (file): An mp3 file
+
+    Returns:
+         None: if no tags are present
+         tags (str): a substring containing the Title, Artist and Album tags.
     """
     tags = song.read(128)
     tags = tags.decode("latin-1")
@@ -27,21 +41,20 @@ def load_tags(song):
     # check if the file actually has any ID3v2 tags
     if tags.startswith("ID3"):
         return tags
-    return None
-
-
-def sanitize_tag(tag):
-    """Remove leftover ASCII control characters"""
-    for i in tag:
-        for j in range(32):
-            if chr(j) == i:
-                tag = tag.replace(i, "")
-    return tag
+    else:
+        return None
 
 
 def extract_tags(tags):
-    """Return a tuple containing extracted Title, Artist and Album tags from
-    the surrounding bytes.
+    """
+    Extract and slice the full tag string into Title, Artist, and Album tags
+
+    Args:
+        tags (str): string containing all 3 tags
+
+    Returns:
+        (title, artist, album) (tuple): a tuple containing the three split tags
+
     """
 
     title = tags[tags.find("TIT2") + 4:tags.find("TPE1")]
@@ -51,8 +64,35 @@ def extract_tags(tags):
     return title, artist, album
 
 
+def sanitize_tag(tag):
+    """
+    Remove leftover ASCII control characters and null bytes.
+
+    Args:
+        tag (str): raw tag string
+
+    Returns:
+        tag (str): a cleaned up string
+    """
+    for i in tag:
+        for j in range(32):
+            if chr(j) == i:
+                tag = tag.replace(i, "")
+    return tag
+
+
 def rename_song(file, artist, title):
-    """Rename file based on the artist and title arguments. Return the new filename"""
+    """
+    Rename file based on the artist and title arguments.
+    Return a new filename after renaming.
+
+    Args:
+        file, artist, title (string): strings containing the three tags
+
+    Returns:
+        new_name (string): name of the file after renaming
+
+    """
 
     new_name = "{} - {}.{}".format(artist, title, "mp3")
     os.rename(file, new_name)
@@ -60,7 +100,16 @@ def rename_song(file, artist, title):
 
 
 def create_dir(artist, album):
-    """Construct a path from the artist and album args and create the directories based on them"""
+    """
+    Construct a path from the artist and album args and create the directories based on them
+
+    Args:
+        artist, album (string): artist and album tags
+
+    Returns:
+        songdir (string): the newly created directory path
+
+    """
     songdir = os.path.join(artist, album)
     os.makedirs(songdir, exist_ok=True)
     return songdir
