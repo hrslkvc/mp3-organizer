@@ -1,6 +1,6 @@
 # mp3-organizer
 
-A bare-bones script that reads ID3v2 tags of an .mp3 file and based on the extracted info:
+A bare-bones script that reads ID3v2 tags of an .mp3 file and based on the extracted tag info:
 
 1. Renames the .mp3 file to reflect the embedded info (Artist - Title)
 2. Creates a new directory for every artist 
